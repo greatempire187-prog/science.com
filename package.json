@@ -1,0 +1,23 @@
+{
+  "name": "scientific-discovery-platform-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Scientific Discovery Platform",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 3000",
+    "dev": "python -m http.server 3000",
+    "build": "echo 'No build step required for static HTML/CSS/JS'",
+    "test": "echo 'No frontend tests configured'",
+    "lint": "echo 'Linting not configured'"
+  },
+  "keywords": [
+    "scientific",
+    "research",
+    "discovery",
+    "platform"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Discovery Platform</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-atom"></i>
+                    <span>Scientific Discovery Platform</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#dashboard" class="nav-link active" data-page="dashboard">Dashboard</a></li>
+                    <li><a href="#search" class="nav-link" data-page="search">Search</a></li>
+                    <li><a href="#documents" class="nav-link" data-page="documents">Documents</a></li>
+                    <li><a href="#chat" class="nav-link" data-page="chat">Chat</a></li>
+                    <li><a href="#hypotheses" class="nav-link" data-page="hypotheses">Hypotheses</a></li>
+                    <li><a href="#knowledge-graph" class="nav-link" data-page="knowledge-graph">Knowledge Graph</a></li>
+                    <li><a href="#experiments" class="nav-link" data-page="experiments">Experiments</a></li>
+                    <li><a href="#citations" class="nav-link" data-page="citations">Citations</a></li>
+                    <li><a href="#teams" class="nav-link" data-page="teams">Teams</a></li>
+                </ul>
+                <div class="nav-user">
+                    <button id="themeToggle" class="theme-toggle" title="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button id="loginBtn" class="btn btn-primary">Login</button>
+                    <div id="userInfo" class="user-info hidden">
+                        <span id="userName"></span>
+                        <button id="logoutBtn" class="btn btn-secondary">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <section id="dashboard" class="page active">
+                <div class="page-header">
+                    <h1>Dashboard</h1>
+                    <p>Overview of your research activities</p>
+                </div>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Documents</h3>
+                        <p id="totalDocuments">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-comments"></i>
+                        <h3>Chats</h3>
+                        <p id="totalChats">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h3>Hypotheses</h3>
+                        <p id="totalHypotheses">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-flask"></i>
+                        <h3>Experiments</h3>
+                        <p id="totalExperiments">0</p>
+                    </div>
+                </div>
+                <div class="dashboard-content">
+                    <div class="recent-activity">
+                        <h2>Recent Activity</h2>
+                        <div id="recentActivity" class="activity-list"></div>
+                    </div>
+                    <div class="quick-actions">
+                        <h2>Quick Actions</h2>
+                        <button class="action-btn" onclick="showUploadModal()">
+                            <i class="fas fa-upload"></i>
+                            Upload Document
+                        </button>
+                        <button class="action-btn" onclick="navigateTo('chat')">
+                            <i class="fas fa-comments"></i>
+                            Start Chat
+                        </button>
+                        <button class="action-btn" onclick="navigateTo('hypotheses')">
+                            <i class="fas fa-lightbulb"></i>
+                            Generate Hypothesis
+                        </button>
+                        <button class="action-btn" onclick="navigateTo('search')">
+                            <i class="fas fa-search"></i>
+                            Search Literature
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Search Page -->
+            <section id="search" class="page">
+                <div class="page-header">
+                    <h1>Search Scientific Literature</h1>
+                    <p>Search across millions of research papers</p>
+                </div>
+                <div class="search-container">
+                    <div class="search-bar">
+                        <input type="text" id="searchInput" placeholder="Enter search query..." />
+                        <button id="searchBtn" class="btn btn-primary">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                    <div class="search-filters">
+                        <select id="searchType">
+                            <option value="semantic">Semantic Search</option>
+                            <option value="keyword">Keyword Search</option>
+                            <option value="hybrid">Hybrid Search</option>
+                        </select>
+                        <select id="searchYear">
+                            <option value="all">All Years</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                        </select>
+                        <select id="searchField">
+                            <option value="all">All Fields</option>
+                            <option value="computer-science">Computer Science</option>
+                            <option value="biology">Biology</option>
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                            <option value="medicine">Medicine</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="searchResults" class="search-results"></div>
+            </section>
+
+            <!-- Documents Page -->
+            <section id="documents" class="page">
+                <div class="page-header">
+                    <h1>Documents</h1>
+                    <p>Manage your research documents</p>
+                </div>
+                <div class="documents-toolbar">
+                    <button id="uploadBtn" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Upload Document
+                    </button>
+                    <button id="createReviewBtn" class="btn btn-secondary">
+                        <i class="fas fa-book"></i> Create Literature Review
+                    </button>
+                    <button id="generateSummaryBtn" class="btn btn-secondary">
+                        <i class="fas fa-file-alt"></i> Generate Summary
+                    </button>
+                </div>
+                <div id="documentsList" class="documents-list"></div>
+            </section>
+
+            <!-- Chat Page -->
+            <section id="chat" class="page">
+                <div class="page-header">
+                    <h1>Chat with Documents</h1>
+                    <p>Ask questions about your research documents</p>
+                </div>
+                <div class="chat-container">
+                    <div class="chat-sidebar">
+                        <h3>Documents</h3>
+                        <div id="chatDocuments" class="chat-documents"></div>
+                        <button id="selectDocumentBtn" class="btn btn-secondary">
+                            <i class="fas fa-plus"></i> Add Document
+                        </button>
+                    </div>
+                    <div class="chat-main">
+                        <div id="chatMessages" class="chat-messages"></div>
+                        <div class="chat-input">
+                            <textarea id="chatInput" placeholder="Ask a question about your documents..."></textarea>
+                            <button id="sendChatBtn" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hypotheses Page -->
+            <section id="hypotheses" class="page">
+                <div class="page-header">
+                    <h1>Research Hypotheses</h1>
+                    <p>Generate and manage research hypotheses</p>
+                </div>
+                <div class="hypotheses-toolbar">
+                    <button id="generateHypothesisBtn" class="btn btn-primary">
+                        <i class="fas fa-lightbulb"></i> Generate Hypothesis
+                    </button>
+                    <button id="exportHypothesesBtn" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+                <div id="hypothesesList" class="hypotheses-list"></div>
+            </section>
+
+            <!-- Knowledge Graph Page -->
+            <section id="knowledge-graph" class="page">
+                <div class="page-header">
+                    <h1>Knowledge Graph</h1>
+                    <p>Visualize relationships between concepts</p>
+                </div>
+                <div class="graph-toolbar">
+                    <input type="text" id="graphQuery" placeholder="Search concepts..." />
+                    <button id="buildGraphBtn" class="btn btn-primary">
+                        <i class="fas fa-project-diagram"></i> Build Graph
+                    </button>
+                    <button id="exportGraphBtn" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+                <div id="graphContainer" class="graph-container">
+                    <canvas id="knowledgeGraphCanvas"></canvas>
+                </div>
+            </section>
+
+            <!-- Experiments Page -->
+            <section id="experiments" class="page">
+                <div class="page-header">
+                    <h1>Experiments</h1>
+                    <p>Track your research experiments</p>
+                </div>
+                <div class="experiments-toolbar">
+                    <button id="createExperimentBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create Experiment
+                    </button>
+                    <button id="importExperimentBtn" class="btn btn-secondary">
+                        <i class="fas fa-upload"></i> Import
+                    </button>
+                </div>
+                <div id="experimentsList" class="experiments-list"></div>
+            </section>
+
+            <!-- Citations Page -->
+            <section id="citations" class="page">
+                <div class="page-header">
+                    <h1>Citations</h1>
+                    <p>Manage your research citations</p>
+                </div>
+                <div class="citations-toolbar">
+                    <button id="addCitationBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Citation
+                    </button>
+                    <button id="importCitationsBtn" class="btn btn-secondary">
+                        <i class="fas fa-upload"></i> Import BibTeX
+                    </button>
+                    <button id="exportCitationsBtn" class="btn btn-secondary">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+                <div id="citationsList" class="citations-list"></div>
+            </section>
+
+            <!-- Teams Page -->
+            <section id="teams" class="page">
+                <div class="page-header">
+                    <h1>Teams</h1>
+                    <p>Collaborate with your research team</p>
+                </div>
+                <div class="teams-toolbar">
+                    <button id="createTeamBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Create Team
+                    </button>
+                    <button id="inviteMemberBtn" class="btn btn-secondary">
+                        <i class="fas fa-user-plus"></i> Invite Member
+                    </button>
+                </div>
+                <div id="teamsList" class="teams-list"></div>
+            </section>
+        </main>
+
+        <!-- Upload Modal -->
+        <div id="uploadModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Upload Document</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag and drop files here or click to browse</p>
+                        <input type="file" id="fileInput" accept=".pdf,.txt,.doc,.docx" multiple />
+                    </div>
+                    <div id="uploadProgress" class="upload-progress hidden">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p id="progressText">Uploading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hypothesis Generation Modal -->
+        <div id="hypothesisModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Generate Hypothesis</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Research Topic</label>
+                        <input type="text" id="hypothesisTopic" placeholder="Enter research topic..." />
+                    </div>
+                    <div class="form-group">
+                        <label>Context</label>
+                        <textarea id="hypothesisContext" placeholder="Provide additional context..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Select Documents</label>
+                        <div id="hypothesisDocuments" class="document-selector"></div>
+                    </div>
+                    <button id="generateHypothesisSubmit" class="btn btn-primary">Generate</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Experiment Modal -->
+        <div id="experimentModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Create Experiment</h2>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Experiment Name</label>
+                        <input type="text" id="experimentName" placeholder="Enter experiment name..." />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="experimentDescription" placeholder="Describe the experiment..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Hypothesis</label>
+                        <select id="experimentHypothesis"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Start Date</label>
+                        <input type="date" id="experimentStartDate" />
+                    </div>
+                    <button id="createExperimentSubmit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+
+        <!-- Toast Notifications -->
+        <div id="toastContainer" class="toast-container"></div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/documents.js"></script>
+    <script src="js/chat.js"></script>
+    <script src="js/hypotheses.js"></script>
+    <script src="js/knowledge-graph.js"></script>
+    <script src="js/experiments.js"></script>
+    <script src="js/citations.js"></script>
+    <script src="js/teams.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
